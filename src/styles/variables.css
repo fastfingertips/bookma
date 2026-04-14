@@ -1,0 +1,41 @@
+:root {
+  --bg: #fff;
+  --bg-soft: #f8f8f8;
+  --text: #000;
+  --text-dim: #888;
+  --border: #eee;
+  --border-dim: #f0f0f0;
+  --folder-color: #000;
+  --folder-bg: #f8f8f8;
+  --item-color: #4b5563;
+  --item-bg: transparent;
+  --transition: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg: #121212;
+    --bg-soft: #1e1e1e;
+    --text: #fff;
+    --text-dim: #a0a0a0;
+    --border: #333;
+    --border-dim: #222;
+    --folder-color: #fff;
+    --folder-bg: #1e1e1e;
+    --item-color: #94a3b8;
+    --item-bg: transparent;
+  }
+}
+
+:root.dark {
+  --bg: #121212;
+  --bg-soft: #1e1e1e;
+  --text: #fff;
+  --text-dim: #a0a0a0;
+  --border: #333;
+  --border-dim: #222;
+  --folder-color: #fff;
+  --folder-bg: #1e1e1e;
+  --item-color: #94a3b8;
+  --item-bg: transparent;
+}

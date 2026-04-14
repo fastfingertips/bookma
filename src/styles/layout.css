@@ -1,0 +1,122 @@
+/* Fixed Header Styles */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  font-family: Archivo, sans-serif;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-left h1 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0;
+}
+
+.header-right .subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* Sidebar Layout */
+.app-layout {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  min-height: 600px;
+}
+
+.sidebar {
+  width: 260px;
+  min-width: 150px;
+  max-width: 500px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  padding-right: 20px;
+  position: sticky;
+  top: 150px;
+  align-self: flex-start;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.resizer {
+  width: 8px;
+  margin-left: -19px;
+  cursor: col-resize;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.resizer:hover,
+.resizer.active {
+  background: var(--bg-soft);
+  border-left: 1px solid var(--border);
+}
+
+.main-content {
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+/* Fixed Footer Styles */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 12px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-dim);
+  z-index: 1000;
+  font-family: Archivo, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer-link {
+  color: var(--text);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+/* Home / Upload Section Centering */
+#upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 240px); /* Accounting for fixed header/footer */
+  width: 100%;
+}

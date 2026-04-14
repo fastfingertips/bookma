@@ -1,0 +1,59 @@
+/* Controls Sticky State */
+.controls {
+  margin: 30px 0;
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  position: sticky;
+  top: 45px;
+  background: var(--bg);
+  z-index: 100;
+  border-bottom: 1px solid transparent;
+}
+
+.controls.stuck {
+  border-bottom-color: var(--border);
+}
+
+/* Scroll to Top Button */
+.scroll-btn {
+  position: fixed;
+  bottom: 70px;
+  right: 30px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 0;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  z-index: 1000;
+}
+
+.scroll-btn:hover {
+  background: var(--text);
+}
+
+.scroll-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* State Utilities */
+.is-empty {
+  opacity: 0.4;
+}
+
+.icon-empty {
+  opacity: 0.3;
+}
+
+.text-dim {
+  color: var(--text-dim);
+}

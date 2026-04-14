@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookma | Bookmark Manager</title>
+    <meta
+      name="description"
+      content="Manage your bookmark hierarchy with Bookma. A privacy-first Netscape bookmark file manager."
+    />
+    <link rel="canonical" href="https://bookma.bugra.co/" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bookma.bugra.co/" />
+    <meta property="og:title" content="Bookma | Bookmark Manager" />
+    <meta
+      property="og:description"
+      content="Privacy-first Netscape bookmark workspace. Organize, search, and export with ease."
+    />
+    <meta property="og:image" content="https://bookma.bugra.co/favicon.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://bookma.bugra.co/" />
+    <meta property="twitter:title" content="Bookma | Bookmark Manager" />
+    <meta
+      property="twitter:description"
+      content="Privacy-first Netscape bookmark workspace. Organize, search, and export with ease."
+    />
+    <meta property="twitter:image" content="https://bookma.bugra.co/favicon.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Bookma",
+        "url": "https://bookma.bugra.co/",
+        "description": "Privacy-first Netscape bookmark file manager.",
+        "applicationCategory": "Utility",
+        "operatingSystem": "Any",
+        "author": {
+          "@type": "Person",
+          "name": "fastfingertips"
+        }
+      }
+    </script>
+
+    <link rel="stylesheet" href="./styles/style.css" />
+    <script src="./main.js" type="module"></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-left">
+        <i data-lucide="bookmark" style="width: 20px; height: 20px; color: var(--text)"></i>
+        <h1>Bookma</h1>
+      </div>
+      <div class="header-right">
+        <button id="theme-toggle" class="theme-toggle" title="Toggle Dark Mode">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+        <p class="subtitle">Bookmark Workspace</p>
+      </div>
+    </header>
+
+    <div class="container">
+      <button id="scroll-top-btn" class="scroll-btn" title="Scroll to top">
+        <i data-lucide="arrow-up"></i>
+      </button>
+
+      <main>
+        <section id="upload-section">
+          <div id="drop-zone" class="drop-zone">
+            <div class="drop-content">
+              <i
+                data-lucide="import"
+                style="width: 40px; height: 40px; margin-bottom: 15px; color: var(--text)"
+              ></i>
+              <h3>Start Exploring</h3>
+              <p>Select your <strong>bookmarks.html</strong> file</p>
+              <button class="btn" style="margin-top: 20px">Open File</button>
+            </div>
+            <input type="file" id="file-input" hidden accept=".html" />
+          </div>
+          <div class="upload-info">
+            <i data-lucide="info" style="width: 14px; height: 14px"></i>
+            <span
+              >Export your bookmarks as an HTML file from your browser settings and drop it
+              here.</span
+            >
+          </div>
+        </section>
+
+        <section id="app-view" style="display: none">
+          <div class="file-metadata">
+            <div class="meta-field">
+              <label>File Title</label>
+              <input type="text" id="meta-title" value="Bookmarks" />
+            </div>
+            <div class="meta-stats">
+              <span id="stat-bookmarks">0</span> bookmarks •
+              <span id="stat-folders">0</span> folders
+              <div class="info-tooltip-wrap">
+                <i data-lucide="info" class="info-icon"></i>
+                <span class="tooltip-text"
+                  >Export preserves original file hierarchy. Sorting only affects current
+                  view.</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="controls">
+            <div class="export-wrap" style="display: flex; gap: 10px">
+              <button id="export-btn" class="btn">Export Bookmarks</button>
+              <button id="diff-btn" class="btn btn-secondary">Review Changes</button>
+            </div>
+            <div class="search-wrap" style="flex-grow: 1; display: flex; gap: 10px">
+              <div class="search-box">
+                <i
+                  data-lucide="search"
+                  style="width: 14px; height: 14px; color: var(--text-dim)"
+                ></i>
+                <input type="text" id="search-input" placeholder="Search marks..." />
+                <button id="search-clear" class="search-clear-btn" style="display: none">
+                  &times;
+                </button>
+              </div>
+              <select id="sort-select" class="sort-select">
+                <option value="name-asc" selected>Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="date-desc">Date (Newest)</option>
+                <option value="date-asc">Date (Oldest)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="app-layout">
+            <aside id="sidebar" class="sidebar"></aside>
+
+            <div id="resizer" class="resizer"></div>
+
+            <main id="main-content" class="main-content">
+              <div class="main-view-header">
+                <nav id="breadcrumb" class="breadcrumb"></nav>
+                <div
+                  id="selected-folder-title"
+                  style="
+                    font-weight: 600;
+                    margin-bottom: 20px;
+                    font-size: 18px;
+                    border-bottom: 1px solid var(--border);
+                    padding-bottom: 10px;
+                  "
+                >
+                  Select a folder
+                </div>
+                <div class="list-header-row">
+                  <span class="header-col col-icon"></span>
+                  <span class="header-col">NAME</span>
+                  <span class="header-col">URL / INFO</span>
+                  <span class="header-col">DATE ADDED</span>
+                </div>
+              </div>
+              <div id="bookmark-list"></div>
+            </main>
+          </div>
+        </section>
+
+        <section id="diff-view" style="display: none">
+          <div
+            class="diff-header"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 20px;
+              border-bottom: 2px solid var(--text);
+              padding-bottom: 10px;
+            "
+          >
+            <h3 style="text-transform: uppercase; letter-spacing: 1px">Review Changes</h3>
+            <button
+              id="diff-close-btn"
+              class="btn"
+              style="background: var(--bg); color: var(--text); border: 1px solid var(--border)"
+            >
+              Back to Explorer
+            </button>
+          </div>
+          <div
+            id="diff-container"
+            class="diff-container"
+            style="
+              background: var(--bg-soft);
+              border: 1px solid var(--border);
+              padding: 20px;
+              font-family: monospace;
+              font-size: 11px;
+              line-height: 1.4;
+              overflow: auto;
+              max-height: 70vh;
+            "
+          ></div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <div class="footer-left">© 2026 fastfingertips</div>
+        <div class="footer-right">
+          <span style="margin-right: 20px">Privacy-First • Open Source</span>
+          <a href="https://github.com/fastfingertips/bookma" target="_blank" class="footer-link">
+            <i data-lucide="github" style="width: 14px; height: 14px"></i> View Repository
+          </a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

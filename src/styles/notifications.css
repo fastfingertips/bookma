@@ -1,0 +1,77 @@
+/* Toast Container */
+.toast-container {
+  position: fixed;
+  bottom: 60px; /* Stay above fixed footer */
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+/* Base Toast Styles */
+.toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 400px;
+  background: var(--text);
+  color: var(--bg);
+  padding: 12px 20px;
+  border: 1px solid var(--text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 4px 4px 0 var(--border);
+  font-family: Archivo, sans-serif;
+  font-size: 13px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brutalist Accent Lines */
+.toast::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--bg);
+}
+
+.toast-message {
+  flex-grow: 1;
+  line-height: 1.4;
+}
+
+/* Variants */
+.toast-error {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+.toast-error::before {
+  background: #ff3e3e; /* Red accent */
+}
+
+.toast-success {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+.toast-success::before {
+  background: #0f0; /* Green accent */
+}
+
+.toast-info {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+.toast-info::before {
+  background: #888; /* Grey accent */
+}
