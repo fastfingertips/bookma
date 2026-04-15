@@ -61,7 +61,9 @@ export function handleFile(file) {
       setOriginalContent(normalized);
 
       setBookmarkData(parsed.items);
+      state.originalBookmarkData = JSON.parse(JSON.stringify(parsed.items));
       setFileMeta(parsed.title);
+      state.originalFileMeta = { title: parsed.title };
 
       document.getElementById(DOM_SELECTORS.UPLOAD_SECTION).style.display = 'none';
       document.getElementById(DOM_SELECTORS.APP_VIEW).style.display = 'block';
@@ -246,6 +248,33 @@ ${generateDL(state.bookmarkData, 1)}
     appView.style.display = 'block';
   });
 
+  const discardBtn = document.getElementById('diff-discard-btn');
+  if (discardBtn) {
+    discardBtn.addEventListener('click', () => {
+      if (!state.originalBookmarkData) return;
+      if (window.confirm('Are you sure you want to discard all changes? This cannot be undone.')) {
+        setBookmarkData(JSON.parse(JSON.stringify(state.originalBookmarkData)));
+        setFileMeta(state.originalFileMeta.title);
+        markUpdated();
+
+        // Refresh UI components
+        renderSidebar(state.bookmarkData);
+
+        // Synchronize breadcrumbs and list view
+        if (state.currentFolderId) {
+          const folder = findFolderById(state.bookmarkData, state.currentFolderId);
+          if (folder) selectFolder(folder);
+        }
+
+        renderDiff();
+        showNotification(
+          'All changes have been successfully discarded.',
+          NOTIFICATION_TYPES.SUCCESS
+        );
+      }
+    });
+  }
+
   bookmarkList.addEventListener('input', (e) => {
     const itemEl = e.target.closest('.bookmark-item');
     if (!itemEl) return;
@@ -273,6 +302,41 @@ ${generateDL(state.bookmarkData, 1)}
   });
 
   bookmarkList.addEventListener('click', (e) => {
+    const revertBtn = e.target.closest('.revert-btn');
+    if (revertBtn) {
+      e.stopPropagation();
+      const itemEl = revertBtn.closest('.bookmark-item');
+      const id = itemEl.dataset.id;
+      const original = findBookmarkById(state.originalBookmarkData, id);
+      const current = findBookmarkById(state.bookmarkData, id);
+
+      if (original && current) {
+        // Deep clone original properties back to current object
+        const clone = JSON.parse(JSON.stringify(original));
+        Object.assign(current, clone);
+        markUpdated();
+
+        // Refresh Explorer UI
+        if (state.currentFolderId === current.id && current.type === ITEM_TYPES.FOLDER) {
+          document.getElementById(DOM_SELECTORS.SELECTED_FOLDER_TITLE).textContent = current.title;
+          updateSidebarTitle(id, current.title);
+          updateBreadcrumbs(id);
+        }
+
+        // Find if it was a folder and update sidebar
+        if (current.type === ITEM_TYPES.FOLDER) {
+          updateSidebarTitle(id, current.title);
+        }
+
+        refreshCurrentView();
+        showNotification(
+          `${current.type === ITEM_TYPES.FOLDER ? 'Folder' : 'Bookmark'} restored to original state.`,
+          NOTIFICATION_TYPES.SUCCESS
+        );
+      }
+      return;
+    }
+
     const itemEl = e.target.closest('.bookmark-item');
     if (!itemEl || e.target.tagName === 'INPUT') return;
     const id = itemEl.dataset.id;

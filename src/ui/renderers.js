@@ -1,5 +1,5 @@
 import { ITEM_TYPES, DOM_SELECTORS } from '../core/constants.js';
-import { findPath } from '../core/logic.js';
+import { findPath, isItemChanged } from '../core/logic.js';
 import { state } from '../core/state.js';
 
 import { refreshIcons } from './utils.js';
@@ -147,6 +147,13 @@ function renderBookmarkListItem(item, showPath = false) {
   const dateObj = item.add_date ? new Date(parseInt(item.add_date) * 1000) : new Date();
   const isoDate = dateObj.toISOString().split('T')[0];
 
+  const changed = isItemChanged(item, state.originalBookmarkData);
+  const revertBtn = changed
+    ? `<button class="action-btn revert-btn" title="Reset to original">
+         <i data-lucide="rotate-ccw" style="width:12px; height:12px;"></i>
+       </button>`
+    : '';
+
   if (item.type === ITEM_TYPES.FOLDER) {
     const isEmpty = item.children.length === 0;
     itemDiv.innerHTML = `
@@ -163,7 +170,8 @@ function renderBookmarkListItem(item, showPath = false) {
                     : ''
                 }
             </div>
-            <div style="color:var(--text-dim); font-size:12px; display:flex; align-items:center;">
+            <div style="color:var(--text-dim); font-size:12px; display:flex; align-items:center; gap: 8px;">
+                ${revertBtn}
                 ${isEmpty ? 'Empty Folder' : `${item.children.length} items`}
             </div>
             <input type="date" class="date-input" value="${isoDate}">
@@ -178,6 +186,7 @@ function renderBookmarkListItem(item, showPath = false) {
                 ${showPath ? `<span style="color:var(--text-dim); font-size:10px;">${item.path || ''}</span>` : ''}
             </div>
             <input type="url" class="bookmark-url-input" value="${item.href || ''}" placeholder="URL">
+            ${revertBtn}
             <input type="date" class="date-input" value="${isoDate}">
         `;
   }

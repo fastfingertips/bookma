@@ -108,3 +108,19 @@ export function applySort(items, criteria) {
 
   return sorted;
 }
+
+export function isItemChanged(item, originalData) {
+  if (!originalData) return false;
+  const original = findBookmarkById(originalData, item.id);
+  if (!original) return false;
+
+  const isTitleChanged = (item.title || '') !== (original.title || '');
+  if (item.type === ITEM_TYPES.FOLDER) {
+    return isTitleChanged;
+  }
+
+  const isHrefChanged = (item.href || '') !== (original.href || '');
+  const isDateChanged = (item.add_date || '') !== (original.add_date || '');
+
+  return isTitleChanged || isHrefChanged || isDateChanged;
+}

@@ -20,6 +20,11 @@
   border-bottom: 1px solid var(--border);
 }
 
+.diff-header-actions {
+  display: flex;
+  gap: 10px;
+}
+
 .diff-header h3 {
   font-size: 14px;
   font-weight: 700;
@@ -196,4 +201,36 @@
   width: 42px;
   height: 42px;
   margin-bottom: 5px;
+}
+
+/* GitHub-Style Margin Revert Interaction */
+.clickable-margin {
+  cursor: pointer !important;
+  transition: background-color 0.2s !important;
+  position: relative;
+}
+
+.clickable-margin:hover {
+  background-color: rgb(59 130 246 / 40%) !important;
+}
+
+.clickable-margin::after {
+  content: '↺';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  opacity: 0;
+  color: #fff;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.clickable-margin:hover::after {
+  opacity: 1;
+}
+
+.clickable-margin:hover .d2h-code-linenumber {
+  opacity: 0;
 }

@@ -53,19 +53,21 @@ export function parseDL(dlElement) {
   return items;
 }
 
-export function generateDL(items, indent) {
+export function generateDL(items, indent, includeIds = false) {
   const space = '    '.repeat(indent);
+  const idAttr = (item) => (includeIds ? ` DATA-ID="${item.id}"` : '');
+
   return items
     .map((item) => {
       if (item.type === ITEM_TYPES.FOLDER) {
-        return `${space}<DT><H3 ADD_DATE="${item.add_date || ''}" LAST_MODIFIED="${
+        return `${space}<DT><H3${idAttr(item)} ADD_DATE="${item.add_date || ''}" LAST_MODIFIED="${
           item.last_modified || ''
         }">${item.title}</H3>
 ${space}<DL><p>
-${generateDL(item.children, indent + 1)}
+${generateDL(item.children, indent + 1, includeIds)}
 ${space}</DL><p>`;
       } else {
-        return `${space}<DT><A HREF="${item.href}" ADD_DATE="${item.add_date || ''}" ${
+        return `${space}<DT><A${idAttr(item)} HREF="${item.href}" ADD_DATE="${item.add_date || ''}" ${
           item.icon ? `ICON="${item.icon}"` : ''
         }>${item.title}</A>`;
       }
@@ -73,15 +75,12 @@ ${space}</DL><p>`;
     .join('\n');
 }
 
-export function serializeBookmarks(items, title) {
+export function serializeBookmarks(items, title, includeIds = false) {
   const header = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<!-- This is an automatically generated file.
-     It will be read and overwritten.
-     DO NOT EDIT! -->
 <TITLE>${title || 'Bookmarks'}</TITLE>
 <H1>${title || 'Bookmarks'}</H1>
 <DL><p>
 `;
   const footer = `\n</DL><p>`;
-  return header + generateDL(items, 1) + footer;
+  return header + generateDL(items, 1, includeIds) + footer;
 }

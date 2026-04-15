@@ -20,6 +20,7 @@ import {
   FolderOpen,
   FileCode,
   CheckCircle,
+  RotateCcw,
 } from 'lucide';
 
 export function refreshIcons() {
@@ -42,6 +43,7 @@ export function refreshIcons() {
         FolderOpen,
         FileCode,
         CheckCircle,
+        RotateCcw,
       },
     });
   } catch (err) {

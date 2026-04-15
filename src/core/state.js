@@ -4,7 +4,9 @@
 
 export const state = {
   bookmarkData: null,
+  originalBookmarkData: null,
   fileMeta: { title: 'Bookmarks' },
+  originalFileMeta: { title: 'Bookmarks' },
   currentFolderId: null,
   currentSort: 'name-asc',
   originalContent: null,
