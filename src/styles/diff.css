@@ -100,9 +100,11 @@
 .diff-added {
   background-color: rgb(16 185 129 / 8%);
 }
+
 .diff-added .line-text {
   color: #059669;
 }
+
 .diff-added .line-prefix {
   color: #059669;
 }
@@ -110,9 +112,11 @@
 .diff-removed {
   background-color: rgb(239 68 68 / 8%);
 }
+
 .diff-removed .line-text {
   color: #dc2626;
 }
+
 .diff-removed .line-prefix {
   color: #dc2626;
 }
