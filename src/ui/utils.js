@@ -17,6 +17,8 @@ import {
   Sun,
   Moon,
   FolderOpen,
+  FileCode,
+  CheckCircle,
 } from 'lucide';
 
 export function refreshIcons() {
@@ -35,6 +37,8 @@ export function refreshIcons() {
       Sun,
       Moon,
       FolderOpen,
+      FileCode,
+      CheckCircle,
     },
   });
 }
