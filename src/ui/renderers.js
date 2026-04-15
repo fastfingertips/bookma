@@ -153,6 +153,7 @@ function renderBookmarkListItem(item, showPath = false) {
                       }</span>`
                 }
             </div>
+            <div></div>
             <input type="date" class="date-input" value="${isoDate}">
         `;
   } else {
