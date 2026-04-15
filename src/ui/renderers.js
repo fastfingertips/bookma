@@ -92,8 +92,20 @@ export function updateBreadcrumbs(targetId) {
 export function renderFolderContent(items) {
   const bookmarkList = document.getElementById(DOM_SELECTORS.BOOKMARK_LIST);
   bookmarkList.innerHTML = '';
-  const frag = document.createDocumentFragment();
 
+  if (items.length === 0) {
+    bookmarkList.innerHTML = `
+            <div class="empty-state">
+                <i data-lucide="folder-open"></i>
+                <p>This folder is empty</p>
+                <span class="empty-hint">There are no bookmarks or subfolders here.</span>
+            </div>
+        `;
+    refreshIcons();
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
   items.forEach((item) => {
     const itemDiv = renderBookmarkListItem(item);
     frag.appendChild(itemDiv);

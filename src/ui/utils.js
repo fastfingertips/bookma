@@ -16,6 +16,7 @@ import {
   AlertCircle,
   Sun,
   Moon,
+  FolderOpen,
 } from 'lucide';
 
 export function refreshIcons() {
@@ -33,6 +34,7 @@ export function refreshIcons() {
       AlertCircle,
       Sun,
       Moon,
+      FolderOpen,
     },
   });
 }
