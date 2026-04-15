@@ -104,6 +104,13 @@
   letter-spacing: 0.5px;
 }
 
+.footer-left,
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .footer-link {
   color: var(--text);
   text-decoration: none;
