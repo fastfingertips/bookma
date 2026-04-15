@@ -53,3 +53,40 @@
 .btn-secondary:hover {
   background: var(--bg-soft) !important;
 }
+
+.diff-skipped {
+  background: var(--bg);
+  color: var(--text-dim);
+  text-align: center;
+  font-style: italic;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  opacity: 0.8;
+}
+
+.diff-stats {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  margin-bottom: 15px;
+}
+
+.stat-plus {
+  color: #0a0;
+  margin-right: 5px;
+}
+
+.stat-minus {
+  color: #a00;
+}
+
+.diff-empty {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-dim);
+  font-style: italic;
+}
