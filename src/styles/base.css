@@ -19,8 +19,17 @@ body {
     sans-serif;
   background: var(--bg);
   color: var(--text);
-  padding: 60px 20px 80px;
+  padding: 80px 20px;
   line-height: 1.5;
+}
+
+input,
+select,
+textarea,
+button {
+  color: inherit;
+  font-family: inherit;
+  background: transparent;
 }
 
 .container {

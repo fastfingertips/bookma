@@ -54,7 +54,6 @@
   <body>
     <header class="app-header">
       <div class="header-left">
-        <i data-lucide="bookmark" style="width: 20px; height: 20px; color: var(--text)"></i>
         <h1>Bookma</h1>
       </div>
       <div class="header-right">
@@ -62,7 +61,6 @@
           <i data-lucide="sun" class="sun-icon"></i>
           <i data-lucide="moon" class="moon-icon"></i>
         </button>
-        <p class="subtitle">Bookmark Workspace</p>
       </div>
     </header>
 
@@ -114,20 +112,15 @@
           </div>
 
           <div class="controls">
-            <div class="export-wrap" style="display: flex; gap: 10px">
+            <div class="export-wrap">
               <button id="export-btn" class="btn">Export Bookmarks</button>
               <button id="diff-btn" class="btn btn-secondary">Review Changes</button>
             </div>
-            <div class="search-wrap" style="flex-grow: 1; display: flex; gap: 10px">
+            <div class="search-wrap">
               <div class="search-box">
-                <i
-                  data-lucide="search"
-                  style="width: 14px; height: 14px; color: var(--text-dim)"
-                ></i>
+                <i data-lucide="search" class="search-icon"></i>
                 <input type="text" id="search-input" placeholder="Search marks..." />
-                <button id="search-clear" class="search-clear-btn" style="display: none">
-                  &times;
-                </button>
+                <button id="search-clear" class="search-clear-btn">&times;</button>
               </div>
               <select id="sort-select" class="sort-select">
                 <option value="name-asc" selected>Name (A-Z)</option>
@@ -146,18 +139,7 @@
             <main id="main-content" class="main-content">
               <div class="main-view-header">
                 <nav id="breadcrumb" class="breadcrumb"></nav>
-                <div
-                  id="selected-folder-title"
-                  style="
-                    font-weight: 600;
-                    margin-bottom: 20px;
-                    font-size: 18px;
-                    border-bottom: 1px solid var(--border);
-                    padding-bottom: 10px;
-                  "
-                >
-                  Select a folder
-                </div>
+                <div id="selected-folder-title" class="folder-title-view">Select a folder</div>
                 <div class="list-header-row">
                   <span class="header-col col-icon"></span>
                   <span class="header-col">NAME</span>

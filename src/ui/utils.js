@@ -84,7 +84,6 @@ export function toggleTheme() {
     document.documentElement.classList.add('dark');
     localStorage.setItem('theme', 'dark');
   } else {
-    // Current state follow system
     if (systemDark) {
       document.documentElement.classList.add('light');
       localStorage.setItem('theme', 'light');

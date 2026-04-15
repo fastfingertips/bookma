@@ -28,6 +28,12 @@
   margin: 0;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .header-right .subtitle {
   font-size: 11px;
   color: var(--text-dim);
