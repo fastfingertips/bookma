@@ -1,157 +1,199 @@
 /**
- * Bookma - Premium Diff Viewer Styles
+ * Bookma - Diff2Html Theme Integration
+ * Seamlessly integrates the diff viewer with the application's minimalist aesthetic.
  */
 
 .diff-container {
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 4px;
   background: var(--bg);
   border: 1px solid var(--border);
-  box-shadow: 0 4px 30px rgb(0 0 0 / 8%);
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
-.diff-header-bar {
+.diff-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 20px;
-  background: var(--bg-soft);
+  margin-bottom: 25px;
+  padding-bottom: 15px;
   border-bottom: 1px solid var(--border);
 }
 
-.diff-file-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--text);
-}
-
-.diff-stats {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  background: var(--bg);
-  border-radius: 6px;
-  font-size: 11px;
-  border: 1px solid var(--border);
-}
-
-.stat-plus {
-  color: #10b981;
-  font-weight: 700;
-}
-
-.stat-minus {
-  color: #ef4444;
-  font-weight: 700;
-}
-
-.diff-content {
-  margin: 0;
-  display: block;
-  overflow-x: auto;
-  background: var(--bg);
-}
-
-.diff-line {
-  display: grid;
-  grid-template-columns: 50px 50px 30px 1fr;
-  align-items: center;
-  transition: background 0.1s;
-}
-
-.diff-line:hover {
-  background: rgb(128 128 128 / 5%);
-}
-
-.line-num {
-  font-family: 'Archivo Mono', monospace;
-  font-size: 11px;
-  color: var(--text-dim);
-  text-align: right;
-  padding-right: 12px;
-  user-select: none;
-  opacity: 0.5;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.line-prefix {
-  font-family: 'Archivo Mono', monospace;
+.diff-header h3 {
   font-size: 14px;
   font-weight: 700;
-  text-align: center;
-  user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
-.line-text {
-  font-family: 'Archivo Mono', monospace;
-  font-size: 12px;
-  padding: 5px 12px;
-  white-space: pre;
+/* Base Wrapper Optimization */
+.d2h-wrapper {
+  background-color: transparent !important;
+  color: var(--text) !important;
+  font-family: inherit !important;
 }
 
-.diff-added {
-  background-color: rgb(16 185 129 / 8%);
+.d2h-file-wrapper {
+  border: none !important;
+  margin-bottom: 0 !important;
 }
 
-.diff-added .line-text {
-  color: #059669;
+/* Header Integration */
+.d2h-file-header {
+  background-color: var(--bg-soft) !important;
+  border-bottom: 1px solid var(--border) !important;
+  padding: 10px 15px !important;
+  display: flex !important;
+  align-items: center !important;
+  font-size: 13px !important;
 }
 
-.diff-added .line-prefix {
-  color: #059669;
+.d2h-file-name {
+  color: var(--text) !important;
+  font-weight: 500 !important;
 }
 
-.diff-removed {
-  background-color: rgb(239 68 68 / 8%);
+/* Hide viewed/collapse logic as it's not needed for single file */
+.d2h-file-collapse,
+.d2h-file-collapse-input {
+  display: none !important;
 }
 
-.diff-removed .line-text {
-  color: #dc2626;
+/* Badge / Tag Styling - Premium Pill Design */
+.d2h-tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 3px 10px !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  border-radius: 100px !important;
+  margin-left: auto !important; /* Push to the right edge */
+  height: 18px !important;
+  line-height: 1 !important;
+  border: 1px solid transparent !important;
+  animation: d2h-tag-fade-in 0.4s ease-out;
 }
 
-.diff-removed .line-prefix {
-  color: #dc2626;
+@keyframes d2h-tag-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.diff-unchanged {
-  color: var(--text-dim);
+.d2h-changed {
+  background-color: rgb(59 130 246 / 8%) !important;
+  color: #3b82f6 !important;
+  border-color: rgb(59 130 246 / 20%) !important;
 }
 
-.diff-skipped {
-  background: var(--bg-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  font-family: 'Archivo Mono', monospace;
-  font-size: 11px;
-  color: var(--text-dim);
-  border-top: 1px solid var(--border-dim);
-  border-bottom: 1px solid var(--border-dim);
+.d2h-added {
+  background-color: rgb(16 185 129 / 8%) !important;
+  color: #10b981 !important;
+  border-color: rgb(16 185 129 / 20%) !important;
+}
+
+.d2h-deleted {
+  background-color: rgb(239 68 68 / 8%) !important;
+  color: #ef4444 !important;
+  border-color: rgb(239 68 68 / 20%) !important;
+}
+
+.d2h-file-name-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* Table and Code */
+.d2h-diff-table {
+  font-family: 'Archivo Mono', monospace !important;
+  font-size: 12px !important;
+  border-collapse: collapse !important;
+}
+
+.d2h-code-line-ctn {
+  padding-left: 12px !important;
+}
+
+.d2h-code-linenumber {
+  width: 50px !important;
+  background-color: var(--bg-soft) !important;
+  color: var(--text-dim) !important;
+  border-right: 1px solid var(--border) !important;
+  text-align: right !important;
+  padding-right: 10px !important;
+  font-size: 11px !important;
+}
+
+/* Change Colors - Subtle and Site-Matched */
+.d2h-ins {
+  background-color: rgb(16 185 129 / 8%) !important;
+}
+
+.d2h-del {
+  background-color: rgb(239 68 68 / 8%) !important;
+}
+
+.d2h-code-line del,
+.d2h-code-line ins {
+  text-decoration: none !important;
+  background: rgb(128 128 128 / 10%) !important;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+/* Info and Dividers */
+.d2h-info {
+  background-color: var(--bg-soft) !important;
+  color: var(--text-dim) !important;
+  border: none !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
   letter-spacing: 1px;
-  cursor: default;
+  padding: 8px !important;
 }
 
+/* Scrollbar Integration */
+.d2h-file-side-diff {
+  overflow-x: auto !important;
+}
+
+.d2h-file-side-diff::-webkit-scrollbar {
+  height: 6px;
+}
+
+.d2h-file-side-diff::-webkit-scrollbar-track {
+  background: var(--bg-soft);
+}
+
+.d2h-file-side-diff::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+/* Empty State Modernization */
 .diff-empty {
-  padding: 100px 40px;
+  padding: 80px 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   color: var(--text-dim);
+  font-size: 13px;
 }
 
 .diff-empty i {
-  width: 48px;
-  height: 48px;
-  opacity: 0.2;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 5px;
 }

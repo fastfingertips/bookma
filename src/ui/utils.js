@@ -14,6 +14,7 @@ import {
   Search,
   Info,
   AlertCircle,
+  Github,
   Sun,
   Moon,
   FolderOpen,
@@ -22,25 +23,30 @@ import {
 } from 'lucide';
 
 export function refreshIcons() {
-  createIcons({
-    icons: {
-      Folder,
-      Bookmark,
-      UploadCloud,
-      ArrowUp,
-      ChevronRight,
-      ChevronDown,
-      Import,
-      Search,
-      Info,
-      AlertCircle,
-      Sun,
-      Moon,
-      FolderOpen,
-      FileCode,
-      CheckCircle,
-    },
-  });
+  try {
+    createIcons({
+      icons: {
+        Folder,
+        Bookmark,
+        UploadCloud,
+        ArrowUp,
+        ChevronRight,
+        ChevronDown,
+        Import,
+        Search,
+        Info,
+        AlertCircle,
+        Github,
+        Sun,
+        Moon,
+        FolderOpen,
+        FileCode,
+        CheckCircle,
+      },
+    });
+  } catch (err) {
+    console.warn('Lucide icon refresh failed:', err);
+  }
 }
 
 export function toggleStickyHeader() {

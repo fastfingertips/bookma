@@ -404,6 +404,17 @@
   color: var(--text);
 }
 
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-soft);
+  border-color: var(--text-dim);
+}
+
 .info-tooltip-wrap {
   position: relative;
   display: flex;

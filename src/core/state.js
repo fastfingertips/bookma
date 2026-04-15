@@ -8,6 +8,11 @@ export const state = {
   currentFolderId: null,
   currentSort: 'name-asc',
   originalContent: null,
+  lastUpdate: Date.now(),
+};
+
+export const markUpdated = () => {
+  state.lastUpdate = Date.now();
 };
 
 export const setBookmarkData = (data) => {

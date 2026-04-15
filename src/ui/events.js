@@ -7,7 +7,7 @@ import {
   findBookmarkById,
   searchBookmarks,
 } from '../core/logic.js';
-import { parseNetscapeBookmarks, generateDL } from '../core/parser.js';
+import { parseNetscapeBookmarks, generateDL, serializeBookmarks } from '../core/parser.js';
 import {
   state,
   setBookmarkData,
@@ -15,6 +15,7 @@ import {
   setCurrentFolderId,
   setCurrentSort,
   setOriginalContent,
+  markUpdated,
 } from '../core/state.js';
 
 import { renderDiff } from './diff-renderer.js';
@@ -54,8 +55,11 @@ export function handleFile(file) {
   reader.onload = (e) => {
     const content = e.target.result;
     try {
-      setOriginalContent(content);
       const parsed = parseNetscapeBookmarks(content);
+      // Create a normalized baseline to avoid false diffs due to formatting differences
+      const normalized = serializeBookmarks(parsed.items, parsed.title);
+      setOriginalContent(normalized);
+
       setBookmarkData(parsed.items);
       setFileMeta(parsed.title);
 
@@ -211,12 +215,31 @@ ${generateDL(state.bookmarkData, 1)}
   const appView = document.getElementById(DOM_SELECTORS.APP_VIEW);
   const diffView = document.getElementById(DOM_SELECTORS.DIFF_VIEW);
 
-  diffBtn.addEventListener('click', () => {
-    if (!state.bookmarkData) return;
-    renderDiff();
-    appView.style.display = 'none';
-    diffView.style.display = 'block';
-  });
+  if (diffBtn) {
+    diffBtn.addEventListener('click', () => {
+      if (!state.bookmarkData) return;
+
+      const originalText = diffBtn.innerText;
+      diffBtn.innerText = 'Calculating...';
+      diffBtn.style.opacity = '0.7';
+      diffBtn.disabled = true;
+
+      // Use setTimeout to allow the UI to reflect the loading state
+      setTimeout(() => {
+        try {
+          renderDiff();
+          appView.style.display = 'none';
+          diffView.style.display = 'block';
+        } catch (err) {
+          console.error('Diff rendering failed:', err);
+        } finally {
+          diffBtn.innerText = originalText;
+          diffBtn.style.opacity = '1';
+          diffBtn.disabled = false;
+        }
+      }, 50);
+    });
+  }
 
   diffCloseBtn.addEventListener('click', () => {
     diffView.style.display = 'none';
@@ -246,6 +269,7 @@ ${generateDL(state.bookmarkData, 1)}
       const newTimestamp = Math.floor(new Date(e.target.value).getTime() / 1000);
       original.add_date = newTimestamp.toString();
     }
+    markUpdated();
   });
 
   bookmarkList.addEventListener('click', (e) => {

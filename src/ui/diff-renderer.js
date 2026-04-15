@@ -1,42 +1,45 @@
-import { diffLines } from 'diff';
+import { createTwoFilesPatch } from 'diff';
+import { Diff2HtmlUI } from 'diff2html/lib-esm/ui/js/diff2html-ui';
+import 'diff2html/bundles/css/diff2html.min.css';
 
 import { DOM_SELECTORS } from '../core/constants.js';
 import { serializeBookmarks } from '../core/parser.js';
 import { state } from '../core/state.js';
 
+import { refreshIcons } from './utils.js';
+
+let lastRenderedTimestamp = 0;
+
 export function renderDiff() {
   const container = document.getElementById(DOM_SELECTORS.DIFF_CONTAINER);
   if (!container || !state.originalContent) return;
 
+  // If state hasn't changed since last render, skip heavy calculation
+  if (state.lastUpdate <= lastRenderedTimestamp && container.innerHTML !== '') {
+    return;
+  }
+
   const currentContent = serializeBookmarks(state.bookmarkData, state.fileMeta.title);
-  const diffParts = diffLines(state.originalContent, currentContent);
 
-  // Flatten diff parts into lines with line numbers
-  const allLines = [];
-  let addedCount = 0;
-  let removedCount = 0;
-  let oldLineNum = 1;
-  let newLineNum = 1;
+  // Generate Unified Diff (Patch)
+  const diffString = createTwoFilesPatch(
+    'bookmarks.html',
+    'bookmarks.html',
+    state.originalContent,
+    currentContent,
+    '',
+    ''
+  );
 
-  diffParts.forEach((part) => {
-    const lines = part.value.split('\n');
-    if (lines[lines.length - 1] === '') lines.pop();
+  // Check if there are actual changes (excluding diff headers)
+  const lines = diffString.split('\n');
+  const hasChanges = lines.some(
+    (line) =>
+      (line.startsWith('+') && !line.startsWith('+++')) ||
+      (line.startsWith('-') && !line.startsWith('---'))
+  );
 
-    lines.forEach((line) => {
-      if (part.added) addedCount++;
-      if (part.removed) removedCount++;
-
-      allLines.push({
-        text: line,
-        added: part.added,
-        removed: part.removed,
-        oldNum: part.added ? '' : oldLineNum++,
-        newNum: part.removed ? '' : newLineNum++,
-      });
-    });
-  });
-
-  if (addedCount === 0 && removedCount === 0) {
+  if (!hasChanges) {
     container.innerHTML = `
       <div class="diff-empty">
         <i data-lucide="check-circle" style="color: #10b981; opacity: 0.5;"></i>
@@ -48,72 +51,19 @@ export function renderDiff() {
     return;
   }
 
-  // Decide which lines to show (changes + context)
-  const contextSize = 3;
-  const linesToShow = new Set();
+  // Render using Diff2Html UI for a professional editor feel
+  const configuration = {
+    drawFileList: false,
+    matching: 'lines',
+    outputFormat: 'side-by-side',
+    highlight: true,
+    fileContentToggle: false,
+    renderNothingWhenEmpty: false,
+  };
 
-  allLines.forEach((line, index) => {
-    if (line.added || line.removed) {
-      for (let i = index - contextSize; i <= index + contextSize; i++) {
-        if (i >= 0 && i < allLines.length) {
-          linesToShow.add(i);
-        }
-      }
-    }
-  });
+  const diff2htmlUi = new Diff2HtmlUI(container, diffString, configuration);
+  diff2htmlUi.draw();
 
-  container.innerHTML = '';
-
-  // Add Premium Header Bar
-  const headerBar = document.createElement('div');
-  headerBar.className = 'diff-header-bar';
-  headerBar.innerHTML = `
-    <div class="diff-file-info">
-      <i data-lucide="file-code" style="width:16px; height:16px; opacity:0.6;"></i>
-      <span>bookmarks.html</span>
-    </div>
-    <div class="diff-stats">
-      <span class="stat-plus">+${addedCount}</span>
-      <span class="stat-minus">-${removedCount}</span>
-      <span style="opacity:0.5; margin-left:4px;">changes</span>
-    </div>
-  `;
-  container.appendChild(headerBar);
-
-  const pre = document.createElement('pre');
-  pre.className = 'diff-content';
-
-  let lastIndex = -1;
-  const sortedIndices = Array.from(linesToShow).sort((a, b) => a - b);
-
-  sortedIndices.forEach((index) => {
-    // Show separator if there's a gap
-    if (lastIndex !== -1 && index > lastIndex + 1) {
-      const skip = document.createElement('div');
-      skip.className = 'diff-skipped';
-      skip.textContent = `@@ ... SKIPPED ${index - lastIndex - 1} LINES ... @@`;
-      pre.appendChild(skip);
-    }
-
-    const line = allLines[index];
-    const colorClass = line.added ? 'diff-added' : line.removed ? 'diff-removed' : 'diff-unchanged';
-    const prefix = line.added ? '+' : line.removed ? '-' : ' ';
-
-    const row = document.createElement('div');
-    row.className = `diff-line ${colorClass}`;
-    row.innerHTML = `
-      <div class="line-num">${line.oldNum}</div>
-      <div class="line-num">${line.newNum}</div>
-      <div class="line-prefix">${prefix}</div>
-      <div class="line-text">${line.text}</div>
-    `;
-    pre.appendChild(row);
-
-    lastIndex = index;
-  });
-
-  container.appendChild(pre);
+  lastRenderedTimestamp = state.lastUpdate;
   refreshIcons();
 }
-
-import { refreshIcons } from './utils.js';
