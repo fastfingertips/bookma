@@ -148,12 +148,12 @@ function renderBookmarkListItem(item, showPath = false) {
                 ${
                   showPath
                     ? `<span style="color:var(--text-dim); font-size:10px;">${item.path || ''}</span>`
-                    : `<span style="color:var(--text-dim); font-size:12px;">${
-                        isEmpty ? 'Empty Folder' : `${item.children.length} items`
-                      }</span>`
+                    : ''
                 }
             </div>
-            <div></div>
+            <div style="color:var(--text-dim); font-size:12px; display:flex; align-items:center;">
+                ${isEmpty ? 'Empty Folder' : `${item.children.length} items`}
+            </div>
             <input type="date" class="date-input" value="${isoDate}">
         `;
   } else {
