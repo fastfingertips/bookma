@@ -36,3 +36,11 @@ export const setCurrentSort = (sort) => {
 export const setOriginalContent = (content) => {
   state.originalContent = content;
 };
+
+export const discardAllChanges = () => {
+  if (state.originalBookmarkData) {
+    state.bookmarkData = JSON.parse(JSON.stringify(state.originalBookmarkData));
+    state.fileMeta = { ...state.originalFileMeta };
+    markUpdated();
+  }
+};

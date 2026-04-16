@@ -29,4 +29,6 @@ favorites_*.html
 *.html_backup
 
 # Reports
+.jscpd/
+coverage/
 report/

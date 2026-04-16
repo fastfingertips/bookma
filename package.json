@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "stylelint": "stylelint **/*.css",
     "format": "prettier --write .",
-    "duplication": "jscpd .",
+    "duplication": "jscpd . --config .jscpd.json --exitCode 1",
     "test": "vitest run",
     "test:all": "npm audit --audit-level=moderate && npm run lint && npm run stylelint && npm run duplication && npm run test",
     "prepare": "husky"
@@ -77,18 +77,5 @@
       ],
       "declaration-empty-line-before": "never"
     }
-  },
-  "jscpd": {
-    "threshold": 0,
-    "minLines": 4,
-    "reporters": [
-      "console"
-    ],
-    "ignore": [
-      "node_modules",
-      "dist",
-      "src/main.test.js"
-    ],
-    "absolute": true
   }
 }

@@ -2,7 +2,7 @@ import importPlugin from 'eslint-plugin-import';
 
 export default [
   {
-    ignores: ['dist/'],
+    ignores: ['dist/', '.jscpd/'],
   },
   {
     files: ['**/*.js'],
